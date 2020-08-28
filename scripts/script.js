@@ -1,24 +1,72 @@
-let money = prompt("Ваш бюджет на месяц?", ''),
+let money, time;
+
+function start() {
+    money = +prompt("Ваш бюджет на месяц?", '');
     time = prompt("Введите дату в формате YYYY-MM-DD", '');
 
-let addData = {
+    while (isNaN(money) || money == "" || money == null) {
+        money = +prompt("Ваш бюджет на месяц?", '');
+
+    }
+}
+start();
+
+
+
+let appData = {
     budget : money,
     expenses : {},
     optionalExpenses: {},
     income: [],
     timeData : time,
-    savings : false
+    savings : true
+};
+
+function chooseExpenses() {
+    for (let i=0; i < 2; i++) {
+        let a = prompt("Введите обязательную статью расходов в этом месяце", ''),
+        b = prompt("Во сколько обойдется?", '');
+
+    if ( (typeof(a))=== 'string' && (typeof(a)) != null && (typeof(b)) != null
+    && a !='' && b != '' && a.length < 50) {
+        console.log("done");
+    appData.expenses[a] = b; // обязательная строка расходов
+            } else {
+                i = i - 1;
+            }
+            
+        
+    }
 }
+chooseExpenses();
 
-let a1 = prompt("Введите обязательную статью расходов в этом месяце", ''),
-    a2 = prompt("Во сколько обойдется?", ''),
-    a3 = prompt("Введите обязательную статью расходов в этом месяце", ''),
-    a4 = prompt("Во сколько это обойдется?", '');
+    appData.moneyPerDay = (appData.budget / 30).toFixed(); //toFixed - возвращает строковое значение и округляет.
 
-    addData.expenses.a1 = a2;
-    addData.expenses.a3 = a4;
+    alert("Ежедневный бюджет:" + appData.moneyPerDay);
 
-    console.log(appData.budget / 30);
+    if(appData.moneyPerDay < 100) {
+        console.log("Минимальный уровень достатка");
+    } else if(appData.moneyPerDay > 100 && appData.moneyPerDay < 2000) {
+        console.log('Средний уровень достатка');
+    } else if ( appData.moneyPerDay > 2000) {
+        console.log('Высокий уровень достатка');
+    } else {
+        console.log('Произошла ошибка, попробуйте еще раз.')
+    }
+
+    //расчет накопление депозита, если он есть
+
+    function checkSavings() {
+        if (appData.savings == true) {
+            let save = +prompt('Какова сумма накоплений?'),
+                percent = +prompt('Под какой процент?'); // + обозначает числовое значение
+
+                appData.monthIncome = save/100/12*percent;
+                alert('Доход в месяц с вашего депозита :' + appData.monthIncome);
+        }
+
+    }
+    checkSavings();
     
     
 
